@@ -6,9 +6,11 @@
     <title>JLM Bijoux - Bijoux et Montres de Luxe</title>
     <link rel="icon" type="image/jpeg" href="images/logo/logo_de_la_boutique.jpeg">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- ======================= Header ======================= -->
     <header>
         <nav>
             <div class="logo-container">
@@ -29,8 +31,17 @@
         </nav>
     </header>
 
+    <!-- ======================= Contenu Principal ======================= -->
     <main>
+        <!-- Section Héros -->
         <section id="accueil" class="hero">
+            <div class="video-background">
+                <video autoplay muted loop playsinline>
+                    <source src="Video/video_de_diamant_tombants.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la lecture de vidéos.
+                </video>
+                <div class="video-overlay"></div>
+            </div>
             <div class="hero-content">
                 <h1>L'Excellence du Luxe à Votre Portée</h1>
                 <p>Découvrez notre collection exclusive de montres de luxe et bijoux élégants</p>
@@ -38,6 +49,7 @@
             </div>
         </section>
 
+        <!-- Section Collection -->
         <section id="collection" class="collection">
             <h2>Notre Collection</h2>
             <div class="filters">
@@ -54,6 +66,7 @@
             </div>
         </section>
 
+        <!-- Section À Propos -->
         <section id="a-propos" class="about">
             <div class="about-content">
                 <h2>À Propos de Nous</h2>
@@ -61,6 +74,7 @@
             </div>
         </section>
 
+        <!-- Section Contact -->
         <section id="contact" class="contact">
             <h2>Contactez-nous</h2>
             <div class="contact-methods">
@@ -83,6 +97,7 @@
         </section>
     </main>
 
+    <!-- ======================= Pied de Page ======================= -->
     <footer>
         <div class="footer-content">
             <div class="footer-section">
@@ -112,6 +127,29 @@
         </div>
     </footer>
 
+    <!-- ======================= Scripts ======================= -->
     <script src="js/script.js"></script>
+
+    <!-- ======================= Éléments UI Mobiles ======================= -->
+    <!-- Barre de navigation mobile -->
+    <nav class="mobile-nav">
+        <a href="#accueil" class="mobile-nav-link active">
+            <i class="fas fa-home"></i>
+            <span>Accueil</span>
+        </a>
+        <a href="#collection" class="mobile-nav-link">
+            <i class="fas fa-gem"></i>
+            <span>Collection</span>
+        </a>
+        <a href="#contact" class="mobile-nav-link">
+            <i class="fas fa-envelope"></i>
+            <span>Contact</span>
+        </a>
+    </nav>
+
+    <!-- Bouton WhatsApp flottant -->
+    <a href="https://wa.me/237686846740" class="whatsapp-flottant" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 </body>
 </html>

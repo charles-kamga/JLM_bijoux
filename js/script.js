@@ -1,7 +1,10 @@
-// Données des produits avec les images disponibles
-// Prix en FCFA (entre 3 000 et 30 000 FCFA)
+// =============================================================================
+// Données des Produits
+// =============================================================================
+// Tableau d'objets contenant les informations sur chaque produit.
+// C'est la "base de données" du site.
 const products = [
-    { id: 1, name: 'Accesoire poignet', price: 9000, image: 'images/accesoire poignet.jpeg', category: 'accessoires' },
+    { id: 1, name: 'Accessoire poignet', price: 9000, image: 'images/accesoire poignet.jpeg', category: 'accessoires' },
     { id: 2, name: 'Anneaux de fiançailles', price: 12500, image: 'images/anneaux de fiançaille.jpeg', category: 'bagues' },
     { id: 3, name: 'Bracelet couleur argent', price: 9500, image: 'images/bracelet couleur argent.jpeg', category: 'bracelets' },
     { id: 4, name: 'Bracelet couleur or', price: 9800, image: 'images/bracelet couleur or.jpeg', category: 'bracelets' },
@@ -21,7 +24,7 @@ const products = [
     { id: 18, name: 'Montre Poedagar argent', price: 26900, image: 'images/montre poedagar argent.jpeg', category: 'montres' },
     { id: 19, name: 'Montre Rolex', price: 28900, image: 'images/montre rolex.jpeg', category: 'montres' },
     { id: 20, name: 'Pack chrétien', price: 14900, image: 'images/pack chretien.jpeg', category: 'coffrets' },
-    { id: 21, name: 'Pack poignet argent', price: 15900, image: 'images/pack pogent argent.jpeg', category: 'coffrets' },
+    { id: 21, name: 'Pack poignet argent', price: 15900, image: 'images/pack poignet argent.jpeg', category: 'coffrets' },
     { id: 22, name: 'Pack poignet or', price: 15900, image: 'images/pack poignet or.jpeg', category: 'coffrets' },
     { id: 23, name: 'Pack poignet Rolex or', price: 29900, image: 'images/pack poignet rolex or.jpeg', category: 'coffrets' },
     { id: 24, name: 'Poedagar', price: 25900, image: 'images/Poedagar.jpeg', category: 'montres' },
@@ -29,7 +32,7 @@ const products = [
     { id: 26, name: 'Portefeuille personnalisé 2', price: 8700, image: 'images/portefeuille personnalisé2.jpeg', category: 'accessoires' },
     { id: 27, name: 'Portefeuille personnalisé', price: 8800, image: 'images/portefeuille personnalisé.jpeg', category: 'accessoires' },
     { id: 28, name: 'Gourde personnalisée', price: 4500, image: 'images/gourde personnalisée.jpeg', category: 'accessoires' },
-    { id: 29, name: 'Collier 1', price: 7500, image: 'images/colier1.jpeg', category: 'colliers' },
+    { id: 29, name: 'Collier 1', price: 7500, image: 'images/collier1.jpeg', category: 'colliers' },
     { id: 30, name: 'Collier chrétien', price: 7500, image: 'images/colier chretien.jpeg', category: 'colliers' },
     { id: 31, name: 'Collier plume', price: 6500, image: 'images/colier plume.jpeg', category: 'colliers' },
     { id: 32, name: 'Collier personnalisés 1', price: 7200, image: 'images/colier personnaliés1.jpeg', category: 'colliers' },
@@ -46,17 +49,28 @@ const products = [
     { id: 43, name: 'Rolex poignet en cuir', price: 29900, image: 'images/rolex poignet en cuir.jpeg', category: 'montres' },
 ];
 
-
-
-// Éléments du DOM
+// =============================================================================
+// Sélection des Éléments du DOM
+// =============================================================================
+// Récupération des éléments HTML qui seront manipulés par le script.
 const productsGrid = document.querySelector('.products-grid');
 const contactForm = document.getElementById('contact-form');
 
-// Afficher les produits
+// =============================================================================
+// Fonctions d'Affichage et d'Interaction
+// =============================================================================
+
+/**
+ * Affiche les produits dans la grille de la collection.
+ * @param {Array} productsToShow - Le tableau de produits à afficher. Par défaut, tous les produits.
+ */
 function displayProducts(productsToShow = products) {
+    // Réinitialiser la grille des produits
     productsGrid.innerHTML = '';
     
+    // Itérer sur les produits à afficher
     productsToShow.forEach((product, index) => {
+        // Créer une carte de produit
         const productCard = document.createElement('div');
         productCard.className = 'product-card fade-in';
         productCard.style.animationDelay = `${index * 0.1}s`;
@@ -68,6 +82,7 @@ function displayProducts(productsToShow = products) {
         const whatsappMessage = `Bonjour, je souhaite commander : ${product.name} - ${formattedPrice} FCFA`;
         const whatsappUrl = `https://wa.me/237686846740?text=${encodeURIComponent(whatsappMessage)}`;
         
+        // Définir le contenu de la carte de produit
         productCard.innerHTML = `
             <div class="product-image">
                 <img src="${product.image}" alt="${product.name}" onerror="this.src='images/placeholder.jpg'">
@@ -81,6 +96,7 @@ function displayProducts(productsToShow = products) {
             </div>
         `;
         
+        // Ajouter la carte de produit à la grille
         productsGrid.appendChild(productCard);
     });
     
@@ -90,12 +106,17 @@ function displayProducts(productsToShow = products) {
     });
 }
 
-// Afficher une notification
+/**
+ * Affiche une notification temporaire en haut à droite de l'écran.
+ * @param {string} message - Le message à afficher.
+ */
 function showNotification(message) {
+    // Créer une notification
     const notification = document.createElement('div');
     notification.className = 'notification';
     notification.textContent = message;
     
+    // Ajouter la notification au corps de la page
     document.body.appendChild(notification);
     
     // Animation d'apparition
@@ -116,7 +137,9 @@ function showNotification(message) {
     }, 3000);
 }
 
-// Gérer l'envoi du formulaire de contact
+/**
+ * Gère la soumission du formulaire de contact (si présent dans le HTML).
+ */
 if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -134,14 +157,20 @@ if (contactForm) {
     });
 }
 
-// Animation au défilement
+/**
+ * Anime les éléments avec la classe '.fade-in' lorsqu'ils deviennent visibles à l'écran.
+ */
 function animateOnScroll() {
+    // Sélectionner les éléments à animer
     const elements = document.querySelectorAll('.fade-in');
     
+    // Itérer sur les éléments
     elements.forEach(element => {
+        // Récupérer la position de l'élément
         const elementPosition = element.getBoundingClientRect().top;
         const screenPosition = window.innerHeight / 1.3;
         
+        // Animer l'élément si il est visible
         if (elementPosition < screenPosition) {
             element.style.opacity = '1';
             element.style.transform = 'translateY(0)';
@@ -149,20 +178,29 @@ function animateOnScroll() {
     });
 }
 
-// Filtrer les produits par catégorie
+/**
+ * Filtre les produits affichés en fonction de la catégorie sélectionnée.
+ * @param {string} category - La catégorie à filtrer ('all' pour tout afficher).
+ */
 function filterProducts(category) {
+    // Afficher tous les produits si la catégorie est 'all'
     if (category === 'all') {
         displayProducts(products);
     } else {
+        // Filtrer les produits par catégorie
         const filteredProducts = products.filter(product => product.category === category);
         displayProducts(filteredProducts);
     }
 }
 
-// Gérer les clics sur les boutons de filtre
+/**
+ * Initialise les écouteurs d'événements pour les boutons de filtre.
+ */
 function setupFilters() {
+    // Sélectionner les boutons de filtre
     const filterButtons = document.querySelectorAll('.filter-btn');
     
+    // Itérer sur les boutons
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
             // Retirer la classe active de tous les boutons
@@ -176,8 +214,12 @@ function setupFilters() {
     });
 }
 
-// Gestion du menu mobile
+/**
+ * Gère l'ouverture et la fermeture du menu de navigation pour les écrans de bureau.
+ * Note : Ce menu est masqué sur mobile au profit de la barre de navigation inférieure.
+ */
 function setupMobileMenu() {
+    // Sélectionner les éléments du menu
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
     const navLinksItems = document.querySelectorAll('.nav-link');
@@ -207,10 +249,15 @@ function setupMobileMenu() {
     });
 }
 
-// Initialisation
+// =============================================================================
+// Initialisation de l'Application
+// =============================================================================
+// S'exécute lorsque le contenu de la page est entièrement chargé.
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialiser le menu mobile
-    setupMobileMenu();
+    // Initialiser le menu mobile uniquement sur les écrans larges
+    if (window.matchMedia("(min-width: 769px)").matches) {
+        setupMobileMenu();
+    }
     
     // Afficher les produits
     displayProducts();
@@ -255,10 +302,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
 });
 
-// Écouter l'événement de défilement
-window.addEventListener('scroll', animateOnScroll);
+// =============================================================================
+// Écouteurs d'Événements Globaux
+// =============================================================================
 
-// Gérer le défilement fluide pour les liens de navigation
+// Gère les animations et la mise à jour de la navigation lors du défilement.
+window.addEventListener('scroll', () => {
+    animateOnScroll();
+    updateActiveNavLink();
+});
+
+/**
+ * Met à jour l'icône active dans la barre de navigation mobile en fonction de la section visible.
+ */
+function updateActiveNavLink() {
+    const sections = document.querySelectorAll('main section');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+    let currentSection = '';
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100; // Décalage pour une meilleure détection
+        if (window.scrollY >= sectionTop) {
+            currentSection = section.getAttribute('id');
+        }
+    });
+
+    mobileNavLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentSection}`) {
+            link.classList.add('active');
+        }
+    });
+}
+
+/**
+ * Gère le défilement fluide (smooth scroll) pour tous les liens internes (ceux qui commencent par '#').
+ */
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         e.preventDefault();
