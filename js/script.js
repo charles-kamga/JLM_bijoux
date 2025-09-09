@@ -232,12 +232,35 @@ function setupMobileMenu() {
         );
     });
 
-    // Fermer le menu quand on clique sur un lien
+    // Gérer le clic sur les liens de navigation
     navLinksItems.forEach(link => {
-        link.addEventListener('click', () => {
+        link.addEventListener('click', function(e) {
+            // Animation de clic
+            this.classList.add('clicked');
+            setTimeout(() => this.classList.remove('clicked'), 300);
+            
+            // Fermer le menu mobile
             navLinks.classList.remove('active');
             menuToggle.setAttribute('aria-expanded', 'false');
-        });
+            document.body.style.overflow = '';
+            
+            // Gérer le défilement fluide pour les ancres
+            const targetId = this.getAttribute('href');
+            if (targetId.startsWith('#')) {
+                e.preventDefault();
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const headerOffset = 80;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        }, { passive: true });
     });
 
     // Fermer le menu quand on clique en dehors
@@ -250,38 +273,84 @@ function setupMobileMenu() {
 }
 
 // =============================================================================
+// Gestion de la navigation mobile
+// =============================================================================
+function setupMobileNav() {
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+    
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (targetId.startsWith('#')) {
+                e.preventDefault();
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Animation de clic
+                    this.classList.add('clicked');
+                    setTimeout(() => this.classList.remove('clicked'), 300);
+                    
+                    // Défilement fluide vers la section cible
+                    const headerOffset = 80;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Mise à jour de l'URL sans recharger la page
+                    if (history.pushState) {
+                        history.pushState(null, null, targetId);
+                    } else {
+                        location.hash = targetId;
+                    }
+                }
+            }
+        });
+    });
+}
+
+// =============================================================================
 // Initialisation de l'Application
 // =============================================================================
 // S'exécute lorsque le contenu de la page est entièrement chargé.
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialiser le menu mobile uniquement sur les écrans larges
-    if (window.matchMedia("(min-width: 769px)").matches) {
-        setupMobileMenu();
-    }
-    
-    // Afficher les produits
+    // Afficher tous les produits au chargement
     displayProducts();
     
-    // Configurer les filtres
+    // Initialiser les filtres
     setupFilters();
     
-    // Ajouter un style pour les notifications
+    // Initialiser le menu mobile
+    setupMobileMenu();
+    
+    // Initialiser la navigation mobile
+    setupMobileNav();
+    
+    // Ajout des styles pour les animations
     const style = document.createElement('style');
     style.textContent = `
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
+        .fade-in {
             opacity: 0;
-            transform: translateY(-100%);
-            transition: all 0.3s ease;
-            pointer-events: none;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .mobile-nav-link.clicked {
+            animation: none;
+        }
+        
+        @keyframes navLinkClick {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
         }
     `;
     document.head.appendChild(style);
@@ -335,22 +404,19 @@ function updateActiveNavLink() {
     });
 }
 
-/**
- * Gère le défilement fluide (smooth scroll) pour tous les liens internes (ceux qui commencent par '#').
- */
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
+        // Ici, vous pourriez ajouter le code pour envoyer les données du formulaire à un serveur
+        const formData = new FormData(contactForm);
+        const formObject = {};
+        formData.forEach((value, key) => formObject[key] = value);
         
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-            window.scrollTo({
-                top: targetElement.offsetTop - 80, // Ajuster pour la hauteur de la navigation
-                behavior: 'smooth'
-            });
-        }
+        // Réinitialiser le formulaire
+        contactForm.reset();
+        
+        // Afficher un message de confirmation
+        showNotification('Votre message a été envoyé avec succès !');
     });
-});
+}

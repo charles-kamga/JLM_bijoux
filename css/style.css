@@ -100,13 +100,48 @@ nav {
     list-style: none;
 }
 
+/* Styles de base des liens de navigation */
 .nav-links li a {
     text-decoration: none;
     color: #333;
     font-weight: 500;
-    transition: color 0.3s;
-    padding: 5px 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    padding: 8px 12px;
+    border-radius: 4px;
+    overflow: hidden;
+    display: inline-block;
+    transform-origin: center;
+}
+
+/* Animation de clic sur les liens */
+.nav-links li a.clicked {
+    animation: clickEffect 0.3s ease-out;
+}
+
+@keyframes clickEffect {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+.nav-links li a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(212, 175, 55, 0.1);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
+}
+
+.nav-links li a:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
 }
 
 .nav-links li a::after {
@@ -117,14 +152,19 @@ nav {
     bottom: 0;
     left: 0;
     background-color: var(--primary-color);
-    transition: width 0.3s ease;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.nav-links li a:hover::after {
-    width: 100%;
+.nav-links li a:hover {
+    color: var(--primary-color);
+    transform: translateY(-2px);
 }
 
-/* Bouton menu */
+.nav-links li a:active {
+    transform: translateY(0);
+}
+
+/* Animation du menu burger */
 .menu-toggle {
     display: none; /* Masqué par défaut, affiché sur mobile */
     font-size: 24px;
@@ -132,7 +172,30 @@ nav {
     border: none;
     cursor: pointer;
     color: var(--secondary-color);
-    padding: 5px;
+    transition: transform 0.3s ease;
+    padding: 8px;
+    border-radius: 4px;
+    position: relative;
+    z-index: 1001;
+}
+
+.menu-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Animation de l'icône du menu */
+.menu-toggle i {
+    transition: transform 0.3s ease;
+}
+
+.menu-toggle.active i {
+    transform: rotate(90deg);
+}
+
+.menu-toggle {
+    padding: 8px;
+    border-radius: 4px;
+    position: relative;
     z-index: 1001;
 }
 
@@ -185,28 +248,45 @@ nav {
     .nav-links {
         display: flex;
         flex-direction: column;
-        width: 100%;
+        width: 80%;
+        max-width: 300px;
         text-align: center;
-    }
-
-    .nav-links {
         position: fixed;
         top: 0;
         right: -100%;
-        width: 70%;
         height: 100vh;
-        background: white;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         flex-direction: column;
-        align-items: center;
         justify-content: center;
-        gap: 2rem;
-        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        align-items: center;
+        transition: right 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         z-index: 1000;
         padding: 2rem;
+        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
     }
 
     .nav-links.active {
         right: 0;
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    /* Animation d'entrée du menu mobile */
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    .nav-links.active {
+        animation: slideInRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
 
     .nav-links li {
