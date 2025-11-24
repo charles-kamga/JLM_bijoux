@@ -369,31 +369,6 @@ document.addEventListener('DOMContentLoaded', () => {
             animateOnScroll();
         }, 300);
     }, 100);
-
-    // Intersection Observer pour les animations de révélation
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    // Elements to animate
-    const revealElements = document.querySelectorAll('.reveal-left, .reveal-right, .zoom-in');
-    revealElements.forEach(el => {
-        el.style.opacity = '0';
-        // Only apply transform if it's not already handled by CSS class initial state
-        // But here we rely on CSS classes for initial state, so we just observe
-        observer.observe(el);
-    });
 });
 
 // =============================================================================

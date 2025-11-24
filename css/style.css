@@ -607,37 +607,16 @@ h6 {
     animation: fadeInUp 0.8s forwards;
 }
 
-.reveal-left {
-    opacity: 0;
-    transform: translateX(-50px);
-    transition: all 1s ease-out;
-}
-
-.reveal-right {
-    opacity: 0;
-    transform: translateX(50px);
-    transition: all 1s ease-out;
-}
-
-.zoom-in {
-    opacity: 0;
-    transform: scale(0.9);
-    transition: all 0.8s ease-out;
-}
-
 .delay-1 {
     animation-delay: 0.2s;
-    transition-delay: 0.2s;
 }
 
 .delay-2 {
     animation-delay: 0.4s;
-    transition-delay: 0.4s;
 }
 
 .delay-3 {
     animation-delay: 0.6s;
-    transition-delay: 0.6s;
 }
 
 @keyframes fadeInUp {
