@@ -1,155 +1,225 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JLM Bijoux - Bijoux et Montres de Luxe</title>
+    <title>JLM Bijoux | L'Élégance Intemporelle</title>
+    <meta name="description"
+        content="Découvrez notre collection exclusive de montres de luxe et bijoux élégants. JLM Bijoux, l'excellence à votre portée.">
     <link rel="icon" type="image/jpeg" href="images/logo/logo_de_la_boutique.jpeg">
+
+    <!-- Polices Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
-    <!-- ======================= Header ======================= -->
-    <header>
-        <nav>
-            <div class="logo-container">
-                <img src="images/logo/logo_de_la_boutique.jpeg" alt="Logo JLM Bijoux" class="logo-img">
+    <!-- Header / Navigation -->
+    <header id="header">
+        <div class="container header-container">
+            <div class="logo">
+                <img src="images/logo/logo_de_la_boutique.jpeg" alt="JLM Bijoux Logo">
                 <span class="logo-text">JLM Bijoux</span>
             </div>
 
-            <button class="menu-toggle" aria-label="Menu">
-                <i class="fas fa-bars"></i>
-            </button>
+            <nav class="desktop-nav">
+                <ul>
+                    <li><a href="#accueil" class="nav-link active">Accueil</a></li>
+                    <li><a href="#collection" class="nav-link">Collection</a></li>
+                    <li><a href="#a-propos" class="nav-link">Maison JLM</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
 
-            <ul class="nav-links">
-                <li><a href="#accueil" class="nav-link">Accueil</a></li>
-                <li><a href="#collection" class="nav-link">Collection</a></li>
-                <li><a href="#a-propos" class="nav-link">À propos</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-        </nav>
+            <div class="header-actions">
+                <a href="#collection" class="btn-gold-outline">Boutique</a>
+            </div>
+        </div>
     </header>
 
-    <!-- ======================= Contenu Principal ======================= -->
     <main>
-        <!-- Section Héros -->
-        <section id="accueil" class="hero">
-            <div class="video-background">
-                <video autoplay muted loop playsinline>
+        <!-- Section Hero -->
+        <section id="accueil" class="hero-section">
+            <div class="video-bg">
+                <video autoplay muted loop playsinline poster="images/placeholder.jpg">
                     <source src="Video/video_de_diamant_tombants.mp4" type="video/mp4">
-                    Votre navigateur ne supporte pas la lecture de vidéos.
                 </video>
-                <div class="video-overlay"></div>
+                <div class="overlay"></div>
             </div>
-            <div class="hero-content">
-                <h1>L'Excellence du Luxe à Votre Portée</h1>
-                <p>Découvrez notre collection exclusive de montres de luxe et bijoux élégants</p>
-                <a href="#collection" class="btn">Découvrir</a>
+
+            <div class="hero-content container">
+                <span class="subtitle fade-in-up">Nouvelle Collection</span>
+                <h1 class="fade-in-up delay-1">L'Art de la Distinction</h1>
+                <p class="fade-in-up delay-2">Une sélection exclusive de pièces d'exception pour sublimer chaque
+                    instant.</p>
+                <div class="hero-buttons fade-in-up delay-3">
+                    <a href="#collection" class="btn-gold">Découvrir la Collection</a>
+                </div>
             </div>
         </section>
 
         <!-- Section Collection -->
-        <section id="collection" class="collection">
-            <h2>Notre Collection</h2>
-            <div class="filters">
-                <button class="filter-btn" data-category="all">Tous les produits</button>
-                <button class="filter-btn" data-category="montres">Montres</button>
-                <button class="filter-btn" data-category="colliers">Colliers</button>
-                <button class="filter-btn" data-category="bracelets">Bracelets</button>
-                <button class="filter-btn" data-category="bagues">Bagues</button>
-                <button class="filter-btn" data-category="accessoires">Accessoires</button>
-                <button class="filter-btn" data-category="coffrets">Coffrets</button>
-            </div>
-            <div class="products-grid">
-                <!-- Les produits seront ajoutés dynamiquement via JavaScript -->
+        <section id="collection" class="collection-section section-padding">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-subtitle">Nos Créations</span>
+                    <h2 class="section-title">La Collection</h2>
+                    <div class="separator"></div>
+                </div>
+
+                <div class="filters-container">
+                    <button class="filter-btn active" data-category="all">Tout Voir</button>
+                    <button class="filter-btn" data-category="montres">Montres</button>
+                    <button class="filter-btn" data-category="colliers">Colliers</button>
+                    <button class="filter-btn" data-category="bracelets">Bracelets</button>
+                    <button class="filter-btn" data-category="bagues">Bagues</button>
+                    <button class="filter-btn" data-category="accessoires">Accessoires</button>
+                    <button class="filter-btn" data-category="coffrets">Coffrets</button>
+                </div>
+
+                <div class="products-grid" id="products-grid">
+                    <!-- Produits injectés via JS -->
+                </div>
             </div>
         </section>
 
         <!-- Section À Propos -->
-        <section id="a-propos" class="about">
-            <div class="about-content">
-                <h2>À Propos de Nous</h2>
-                <p>JLM Bijoux est votre destination privilégiée pour des pièces d'exception. Nous sélectionnons avec soin des montres de luxe et des bijoux haut de gamme pour vous offrir le meilleur de l'élégance et du raffinement. Notre engagement est de vous proposer des pièces authentiques et de qualité supérieure, alliant savoir-faire artisanal et design contemporain.</p>
+        <section id="a-propos" class="about-section section-padding">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-image reveal-left">
+                        <!-- Utilisation d'une image existante ou placeholder -->
+                        <img src="images/montre rolex.jpeg" alt="Savoir-faire JLM Bijoux"
+                            onerror="this.src='https://images.unsplash.com/photo-1617038224558-28ad3a0d1a12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    </div>
+                    <div class="about-content reveal-right">
+                        <span class="section-subtitle">Notre Histoire</span>
+                        <h2 class="section-title">L'Excellence & Le Style</h2>
+                        <p>Chez JLM Bijoux, nous croyons que chaque bijou raconte une histoire. Notre mission est de
+                            vous offrir des pièces qui traversent le temps avec élégance.</p>
+                        <p>Nous sélectionnons rigoureusement chaque montre et chaque bijou pour leur qualité
+                            irréprochable et leur design intemporel. Que ce soit pour un événement spécial ou pour le
+                            quotidien, nos collections sont conçues pour vous distinguer.</p>
+
+                        <div class="features">
+                            <div class="feature">
+                                <i class="fas fa-gem"></i>
+                                <span>Qualité Premium</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-shipping-fast"></i>
+                                <span>Livraison Rapide</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-headset"></i>
+                                <span>Service Client Dédié</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Section Contact -->
-        <section id="contact" class="contact">
-            <h2>Contactez-nous</h2>
-            <div class="contact-methods">
-                <p>Pour toute question ou commande, contactez-nous directement sur WhatsApp :</p>
-                
-                <div class="whatsapp-buttons">
-                    <a href="https://wa.me/237686*****0" class="whatsapp-btn" target="_blank">
-                        <i class="fab fa-whatsapp"></i>
-                        <span>Contacter le vendeur 1</span>
+        <section id="contact" class="contact-section section-padding">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-subtitle">Service Client</span>
+                    <h2 class="section-title">Contactez-Nous</h2>
+                    <p>Une question ? Une commande spéciale ? Nos conseillers sont à votre écoute.</p>
+                </div>
+
+                <div class="contact-cards">
+                    <a href="https://wa.me/237686846740" target="_blank" class="contact-card">
+                        <div class="icon-box">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <h3>Service Commercial 1</h3>
+                        <p>Discuter sur WhatsApp</p>
                     </a>
-                    
-                    <a href="https://wa.me/237*******13" class="whatsapp-btn" target="_blank">
-                        <i class="fab fa-whatsapp"></i>
-                        <span>Contacter le vendeur 2</span>
+
+                    <a href="https://wa.me/237690385513" target="_blank" class="contact-card">
+                        <div class="icon-box">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <h3>Service Commercial 2</h3>
+                        <p>Discuter sur WhatsApp</p>
                     </a>
                 </div>
-                
-                <p class="contact-note">Nos équipes sont disponibles du lundi au samedi de 9h à 19h.</p>
             </div>
         </section>
     </main>
 
-    <!-- ======================= Pied de Page ======================= -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Adresse</h3>
-                <p>237686846740</p>
-                <p></p>
-            </div>
-            <div class="footer-section">
-                <h3>Horaires</h3>
-                <p>Lundi - Vendredi: 10h - 19h</p>
-                <p>Samedi: 10h - 18h</p>
-            </div>
-            <div class="footer-section">
-                <h3>Suivez-nous</h3>
-                <div class="social-links">
-                    <a href="https://www.facebook.com/profile.php?id=61565317336745&mibextid=JRoKGi" target="_blank" aria-label="Facebook">
-                        <i class="fab fa-facebook"></i>
-                    </a>
-                    <a href="https://www.tiktok.com/@cleo.1604?_t=ZM-8z3nShrwRKX&_r=1" target="_blank" aria-label="TikTok">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>JLM Bijoux</h3>
+                    <p>L'élégance à votre poignet.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/profile.php?id=61565317336745&mibextid=JRoKGi"
+                            target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.tiktok.com/@cleo.1604?_t=ZM-8z3nShrwRKX&_r=1" target="_blank"><i
+                                class="fab fa-tiktok"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="#accueil">Accueil</a></li>
+                        <li><a href="#collection">Collection</a></li>
+                        <li><a href="#a-propos">À Propos</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-info">
+                    <h4>Informations</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +237 686 84 67 40</li>
+                        <li><i class="fas fa-clock"></i> Lun - Sam: 09h - 19h</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Cameroun</li>
+                    </ul>
                 </div>
             </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 <a href="https://charleskamga.com" target="_blank" style="color: var(--primary-color); text-decoration: none;">Charles Kamga</a>. Tous droits réservés.</p>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 JLM Bijoux. Design par <a href="https://charleskamga.com" target="_blank">Charles
+                        Kamga</a>.</p>
+            </div>
         </div>
     </footer>
 
-    <!-- ======================= Scripts ======================= -->
-    <script src="js/script.js"></script>
-
-    <!-- ======================= Éléments UI Mobiles ======================= -->
-    <!-- Barre de navigation mobile -->
-    <nav class="mobile-nav">
-        <a href="#accueil" class="mobile-nav-link active">
+    <!-- Navigation Mobile (Bottom Bar) -->
+    <nav class="mobile-bottom-nav">
+        <a href="#accueil" class="mobile-nav-item active">
             <i class="fas fa-home"></i>
             <span>Accueil</span>
         </a>
-        <a href="#collection" class="mobile-nav-link">
+        <a href="#collection" class="mobile-nav-item">
             <i class="fas fa-gem"></i>
             <span>Collection</span>
         </a>
-        <a href="#contact" class="mobile-nav-link">
-            <i class="fas fa-envelope"></i>
+        <a href="#contact" class="mobile-nav-item">
+            <i class="fas fa-comment-dots"></i>
             <span>Contact</span>
         </a>
     </nav>
 
-    <!-- Bouton WhatsApp flottant -->
-    <a href="https://wa.me/237*******0" class="whatsapp-flottant" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <!-- Script -->
+    <script src="js/script.js"></script>
 </body>
+
 </html>

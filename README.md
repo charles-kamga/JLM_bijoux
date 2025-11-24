@@ -1,8 +1,8 @@
-# Andi's Shop – Projet Open Source
+# JLM Bijoux – Projet Open Source
 
-Bienvenue sur le projet open source de la boutique de bijoux **Andi's Shop** ! Ce site a été créé pour présenter une collection exclusive de bijoux et permettre aux clients de les acheter en ligne. Nous accueillons volontiers les contributions de la communauté pour améliorer ce projet.
+Bienvenue sur le projet open source de la boutique de bijoux **JLM Bijoux** ! Ce site a été créé pour présenter une collection exclusive de bijoux et permettre aux clients de les acheter en ligne. Nous accueillons volontiers les contributions de la communauté pour améliorer ce projet.
 
-![Aperçu du site Andi's Shop](images/screenshot.png)
+![Aperçu du site JLM Bijoux](images/screenshot.png)
 
 ## Fonctionnalités
 
@@ -16,7 +16,7 @@ Bienvenue sur le projet open source de la boutique de bijoux **Andi's Shop** ! C
 ## Structure du projet
 
 ```
-Andi's-shop/
+JLM_bijoux/
 ├── .github/                 # Dossiers pour les modèles de contribution
 │   ├── ISSUE_TEMPLATE/
 │   │   ├── bug_report.md
@@ -39,7 +39,7 @@ Andi's-shop/
 2. **Clonez** votre fork sur votre machine locale :
 
    ```bash
-   git clone https://github.com/VOTRE-NOM-UTILISATEUR/Andis-shop.git
+   git clone https://github.com/charles-kamga/JLM_bijoux.git
    ```
 3. Ouvrez le fichier `index.html` dans votre navigateur pour explorer le site.
 

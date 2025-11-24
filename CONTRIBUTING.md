@@ -1,4 +1,4 @@
-# Comment contribuer à Andi's Shop
+# Comment contribuer à JLM bijoux
 
 Nous sommes ravis que vous souhaitiez contribuer à notre projet ! Votre aide est la bienvenue. Ce guide vous aidera à démarrer.
 
@@ -6,14 +6,14 @@ Nous sommes ravis que vous souhaitiez contribuer à notre projet ! Votre aide es
 
 Il existe de nombreuses façons de contribuer :
 
-*   **Signaler des bugs** : Si vous trouvez un bug, merci de nous le faire savoir en ouvrant une [issue](https://github.com/VOTRE-NOM-UTILISATEUR/Andis-shop/issues).
-*   **Suggérer des améliorations** : Vous avez une idée pour une nouvelle fonctionnalité ou une amélioration ? Ouvrez une [issue](https://github.com/VOTRE-NOM-UTILISATEUR/Andis-shop/issues) pour en discuter.
+*   **Signaler des bugs** : Si vous trouvez un bug, merci de nous le faire savoir en ouvrant une [issue](https://github.com/charles-kamga/JLM_bijoux/issues).
+*   **Suggérer des améliorations** : Vous avez une idée pour une nouvelle fonctionnalité ou une amélioration ? Ouvrez une [issue](https://github.com/charles-kamga/JLM_bijoux/issues) pour en discuter.
 *   **Améliorer le code** : Vous pouvez corriger un bug ou développer une nouvelle fonctionnalité.
 *   **Améliorer la documentation** : Si vous trouvez des erreurs ou des points à améliorer dans le `README.md` ou d'autres documentations, n'hésitez pas.
 
 ## "Good First Issues" pour les débutants
 
-Nous avons des issues spécialement conçues pour les nouveaux contributeurs. Elles sont un excellent moyen de commencer. Vous pouvez les trouver [ici](https://github.com/VOTRE-NOM-UTILISATEUR/Andis-shop/labels/good%20first%20issue).
+Nous avons des issues spécialement conçues pour les nouveaux contributeurs. Elles sont un excellent moyen de commencer. Vous pouvez les trouver [ici](https://github.com/charles-kamga/JLM_bijoux/labels/good%20first%20issue).
 
 Voici quelques idées de contributions pour débutants :
 *   Ajouter de nouveaux produits au catalogue.
@@ -24,7 +24,7 @@ Voici quelques idées de contributions pour débutants :
 ## Processus de contribution (Pull Request)
 
 1.  **Forkez** le projet.
-2.  **Clonez** votre fork sur votre machine : `git clone https://github.com/VOTRE-NOM-UTILISATEUR/Andis-shop.git`
+2.  **Clonez** votre fork sur votre machine : `git clone https://github.com/charles-kamga/JLM_bijoux.git`
 3.  Créez une nouvelle **branche** pour vos modifications : `git checkout -b ma-super-fonctionnalite`
 4.  Faites vos modifications et **commitez-les** avec un message clair : `git commit -m "Ajout de ma super fonctionnalité"`
 5.  **Poussez** votre branche vers votre fork : `git push origin ma-super-fonctionnalite`
