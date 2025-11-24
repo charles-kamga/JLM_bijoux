@@ -67,21 +67,21 @@ const contactForm = document.getElementById('contact-form');
 function displayProducts(productsToShow = products) {
     // Réinitialiser la grille des produits
     productsGrid.innerHTML = '';
-    
+
     // Itérer sur les produits à afficher
     productsToShow.forEach((product, index) => {
         // Créer une carte de produit
         const productCard = document.createElement('div');
         productCard.className = 'product-card fade-in';
         productCard.style.animationDelay = `${index * 0.1}s`;
-        
+
         // Formater le prix en FCFA avec des espaces comme séparateurs de milliers
         const formattedPrice = new Intl.NumberFormat('fr-FR').format(product.price);
-        
+
         // Créer le message WhatsApp avec les détails du produit
         const whatsappMessage = `Bonjour, je souhaite commander : ${product.name} - ${formattedPrice} FCFA`;
         const whatsappUrl = `https://wa.me/237686846740?text=${encodeURIComponent(whatsappMessage)}`;
-        
+
         // Définir le contenu de la carte de produit
         productCard.innerHTML = `
             <div class="product-image">
@@ -95,11 +95,11 @@ function displayProducts(productsToShow = products) {
                 </a>
             </div>
         `;
-        
+
         // Ajouter la carte de produit à la grille
         productsGrid.appendChild(productCard);
     });
-    
+
     // Ajouter les écouteurs d'événements aux boutons d'ajout au panier
     document.querySelectorAll('.add-to-cart').forEach(button => {
         button.addEventListener('click', addToCart);
@@ -115,21 +115,21 @@ function showNotification(message) {
     const notification = document.createElement('div');
     notification.className = 'notification';
     notification.textContent = message;
-    
+
     // Ajouter la notification au corps de la page
     document.body.appendChild(notification);
-    
+
     // Animation d'apparition
     setTimeout(() => {
         notification.style.opacity = '1';
         notification.style.transform = 'translateY(0)';
     }, 10);
-    
+
     // Disparaître après 3 secondes
     setTimeout(() => {
         notification.style.opacity = '0';
         notification.style.transform = 'translateY(-100%)';
-        
+
         // Supprimer la notification du DOM après l'animation
         setTimeout(() => {
             notification.remove();
@@ -141,17 +141,17 @@ function showNotification(message) {
  * Gère la soumission du formulaire de contact (si présent dans le HTML).
  */
 if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        
+
         // Ici, vous pourriez ajouter le code pour envoyer les données du formulaire à un serveur
         const formData = new FormData(contactForm);
         const formObject = {};
         formData.forEach((value, key) => formObject[key] = value);
-        
+
         // Réinitialiser le formulaire
         contactForm.reset();
-        
+
         // Afficher un message de confirmation
         showNotification('Votre message a été envoyé avec succès !');
     });
@@ -163,13 +163,13 @@ if (contactForm) {
 function animateOnScroll() {
     // Sélectionner les éléments à animer
     const elements = document.querySelectorAll('.fade-in');
-    
+
     // Itérer sur les éléments
     elements.forEach(element => {
         // Récupérer la position de l'élément
         const elementPosition = element.getBoundingClientRect().top;
         const screenPosition = window.innerHeight / 1.3;
-        
+
         // Animer l'élément si il est visible
         if (elementPosition < screenPosition) {
             element.style.opacity = '1';
@@ -199,7 +199,7 @@ function filterProducts(category) {
 function setupFilters() {
     // Sélectionner les boutons de filtre
     const filterButtons = document.querySelectorAll('.filter-btn');
-    
+
     // Itérer sur les boutons
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -227,23 +227,23 @@ function setupMobileMenu() {
     // Bascule le menu
     menuToggle.addEventListener('click', () => {
         navLinks.classList.toggle('active');
-        menuToggle.setAttribute('aria-expanded', 
+        menuToggle.setAttribute('aria-expanded',
             menuToggle.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'
         );
     });
 
     // Gérer le clic sur les liens de navigation
     navLinksItems.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             // Animation de clic
             this.classList.add('clicked');
             setTimeout(() => this.classList.remove('clicked'), 300);
-            
+
             // Fermer le menu mobile
             navLinks.classList.remove('active');
             menuToggle.setAttribute('aria-expanded', 'false');
             document.body.style.overflow = '';
-            
+
             // Gérer le défilement fluide pour les ancres
             const targetId = this.getAttribute('href');
             if (targetId.startsWith('#')) {
@@ -253,7 +253,7 @@ function setupMobileMenu() {
                     const headerOffset = 80;
                     const elementPosition = targetElement.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                    
+
                     window.scrollTo({
                         top: offsetPosition,
                         behavior: 'smooth'
@@ -277,29 +277,29 @@ function setupMobileMenu() {
 // =============================================================================
 function setupMobileNav() {
     const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-    
+
     mobileNavLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
             if (targetId.startsWith('#')) {
                 e.preventDefault();
                 const targetElement = document.querySelector(targetId);
-                
+
                 if (targetElement) {
                     // Animation de clic
                     this.classList.add('clicked');
                     setTimeout(() => this.classList.remove('clicked'), 300);
-                    
+
                     // Défilement fluide vers la section cible
                     const headerOffset = 80;
                     const elementPosition = targetElement.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                    
+
                     window.scrollTo({
                         top: offsetPosition,
                         behavior: 'smooth'
                     });
-                    
+
                     // Mise à jour de l'URL sans recharger la page
                     if (history.pushState) {
                         history.pushState(null, null, targetId);
@@ -319,16 +319,16 @@ function setupMobileNav() {
 document.addEventListener('DOMContentLoaded', () => {
     // Afficher tous les produits au chargement
     displayProducts();
-    
+
     // Initialiser les filtres
     setupFilters();
-    
+
     // Initialiser le menu mobile
     setupMobileMenu();
-    
+
     // Initialiser la navigation mobile
     setupMobileNav();
-    
+
     // Ajout des styles pour les animations
     const style = document.createElement('style');
     style.textContent = `
@@ -354,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     `;
     document.head.appendChild(style);
-    
+
     // Animation au chargement initial
     setTimeout(() => {
         document.querySelectorAll('.fade-in').forEach((element, index) => {
@@ -363,12 +363,37 @@ document.addEventListener('DOMContentLoaded', () => {
             element.style.transform = 'translateY(20px)';
             element.style.transition = 'all 0.6s ease-out';
         });
-        
+
         // Déclencher l'animation après un court délai
         setTimeout(() => {
             animateOnScroll();
         }, 300);
     }, 100);
+
+    // Intersection Observer pour les animations de révélation
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Elements to animate
+    const revealElements = document.querySelectorAll('.reveal-left, .reveal-right, .zoom-in');
+    revealElements.forEach(el => {
+        el.style.opacity = '0';
+        // Only apply transform if it's not already handled by CSS class initial state
+        // But here we rely on CSS classes for initial state, so we just observe
+        observer.observe(el);
+    });
 });
 
 // =============================================================================
@@ -405,17 +430,17 @@ function updateActiveNavLink() {
 }
 
 if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        
+
         // Ici, vous pourriez ajouter le code pour envoyer les données du formulaire à un serveur
         const formData = new FormData(contactForm);
         const formObject = {};
         formData.forEach((value, key) => formObject[key] = value);
-        
+
         // Réinitialiser le formulaire
         contactForm.reset();
-        
+
         // Afficher un message de confirmation
         showNotification('Votre message a été envoyé avec succès !');
     });
