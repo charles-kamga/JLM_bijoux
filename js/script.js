@@ -1,8 +1,6 @@
 // =============================================================================
 // Données des Produits
 // =============================================================================
-// Tableau d'objets contenant les informations sur chaque produit.
-// C'est la "base de données" du site.
 const products = [
     { id: 1, name: 'Accessoire poignet', price: 9000, image: 'images/accesoire poignet.jpeg', category: 'accessoires' },
     { id: 2, name: 'Anneaux de fiançailles', price: 12500, image: 'images/anneaux de fiançaille.jpeg', category: 'bagues' },
@@ -50,373 +48,151 @@ const products = [
 ];
 
 // =============================================================================
-// Sélection des Éléments du DOM
+// Initialisation
 // =============================================================================
-// Récupération des éléments HTML qui seront manipulés par le script.
-const productsGrid = document.querySelector('.products-grid');
-const contactForm = document.getElementById('contact-form');
+document.addEventListener('DOMContentLoaded', () => {
+    displayProducts();
+    setupFilters();
+    setupScrollAnimations();
+    setupMobileNav();
+});
 
 // =============================================================================
-// Fonctions d'Affichage et d'Interaction
+// Affichage des Produits
 // =============================================================================
+const productsGrid = document.getElementById('products-grid');
 
-/**
- * Affiche les produits dans la grille de la collection.
- * @param {Array} productsToShow - Le tableau de produits à afficher. Par défaut, tous les produits.
- */
 function displayProducts(productsToShow = products) {
-    // Réinitialiser la grille des produits
     productsGrid.innerHTML = '';
 
-    // Itérer sur les produits à afficher
     productsToShow.forEach((product, index) => {
-        // Créer une carte de produit
         const productCard = document.createElement('div');
-        productCard.className = 'product-card fade-in';
-        productCard.style.animationDelay = `${index * 0.1}s`;
 
-        // Formater le prix en FCFA avec des espaces comme séparateurs de milliers
+        // Alternance des animations : gauche pour pair, droite pour impair
+        const animationClass = index % 2 === 0 ? 'reveal-left' : 'reveal-right';
+        productCard.className = `product-card ${animationClass}`;
+
+        // Staggered animation for products
+        productCard.style.transitionDelay = `${(index % 3) * 0.1}s`;
+
         const formattedPrice = new Intl.NumberFormat('fr-FR').format(product.price);
-
-        // Créer le message WhatsApp avec les détails du produit
         const whatsappMessage = `Bonjour, je souhaite commander : ${product.name} - ${formattedPrice} FCFA`;
         const whatsappUrl = `https://wa.me/237686846740?text=${encodeURIComponent(whatsappMessage)}`;
 
-        // Définir le contenu de la carte de produit
         productCard.innerHTML = `
             <div class="product-image">
-                <img src="${product.image}" alt="${product.name}" onerror="this.src='images/placeholder.jpg'">
+                <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.src='images/placeholder.jpg'">
             </div>
             <div class="product-info">
-                <h3>${product.name}</h3>
-                <p class="price">${formattedPrice} FCFA</p>
-                <a href="${whatsappUrl}" target="_blank" class="btn order-btn">
+                <div class="product-category">${product.category}</div>
+                <h3 class="product-title">${product.name}</h3>
+                <p class="product-price">${formattedPrice} FCFA</p>
+                <a href="${whatsappUrl}" target="_blank" class="btn-order">
                     <i class="fab fa-whatsapp"></i> Commander
                 </a>
             </div>
         `;
 
-        // Ajouter la carte de produit à la grille
         productsGrid.appendChild(productCard);
     });
 
-    // Ajouter les écouteurs d'événements aux boutons d'ajout au panier
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', addToCart);
-    });
+    // Re-observe new elements
+    observeElements();
 }
 
-/**
- * Affiche une notification temporaire en haut à droite de l'écran.
- * @param {string} message - Le message à afficher.
- */
-function showNotification(message) {
-    // Créer une notification
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.textContent = message;
-
-    // Ajouter la notification au corps de la page
-    document.body.appendChild(notification);
-
-    // Animation d'apparition
-    setTimeout(() => {
-        notification.style.opacity = '1';
-        notification.style.transform = 'translateY(0)';
-    }, 10);
-
-    // Disparaître après 3 secondes
-    setTimeout(() => {
-        notification.style.opacity = '0';
-        notification.style.transform = 'translateY(-100%)';
-
-        // Supprimer la notification du DOM après l'animation
-        setTimeout(() => {
-            notification.remove();
-        }, 300);
-    }, 3000);
-}
-
-/**
- * Gère la soumission du formulaire de contact (si présent dans le HTML).
- */
-if (contactForm) {
-    contactForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        // Ici, vous pourriez ajouter le code pour envoyer les données du formulaire à un serveur
-        const formData = new FormData(contactForm);
-        const formObject = {};
-        formData.forEach((value, key) => formObject[key] = value);
-
-        // Réinitialiser le formulaire
-        contactForm.reset();
-
-        // Afficher un message de confirmation
-        showNotification('Votre message a été envoyé avec succès !');
-    });
-}
-
-/**
- * Anime les éléments avec la classe '.fade-in' lorsqu'ils deviennent visibles à l'écran.
- */
-function animateOnScroll() {
-    // Sélectionner les éléments à animer
-    const elements = document.querySelectorAll('.fade-in');
-
-    // Itérer sur les éléments
-    elements.forEach(element => {
-        // Récupérer la position de l'élément
-        const elementPosition = element.getBoundingClientRect().top;
-        const screenPosition = window.innerHeight / 1.3;
-
-        // Animer l'élément si il est visible
-        if (elementPosition < screenPosition) {
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
-        }
-    });
-}
-
-/**
- * Filtre les produits affichés en fonction de la catégorie sélectionnée.
- * @param {string} category - La catégorie à filtrer ('all' pour tout afficher).
- */
-function filterProducts(category) {
-    // Afficher tous les produits si la catégorie est 'all'
-    if (category === 'all') {
-        displayProducts(products);
-    } else {
-        // Filtrer les produits par catégorie
-        const filteredProducts = products.filter(product => product.category === category);
-        displayProducts(filteredProducts);
-    }
-}
-
-/**
- * Initialise les écouteurs d'événements pour les boutons de filtre.
- */
+// =============================================================================
+// Filtrage
+// =============================================================================
 function setupFilters() {
-    // Sélectionner les boutons de filtre
     const filterButtons = document.querySelectorAll('.filter-btn');
 
-    // Itérer sur les boutons
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Retirer la classe active de tous les boutons
+            // Update active state
             filterButtons.forEach(btn => btn.classList.remove('active'));
-            // Ajouter la classe active au bouton cliqué
             button.classList.add('active');
-            // Filtrer les produits
+
+            // Filter products
             const category = button.dataset.category;
-            filterProducts(category);
+            if (category === 'all') {
+                displayProducts(products);
+            } else {
+                const filtered = products.filter(p => p.category === category);
+                displayProducts(filtered);
+            }
         });
     });
 }
 
-/**
- * Gère l'ouverture et la fermeture du menu de navigation pour les écrans de bureau.
- * Note : Ce menu est masqué sur mobile au profit de la barre de navigation inférieure.
- */
-function setupMobileMenu() {
-    // Sélectionner les éléments du menu
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    const navLinksItems = document.querySelectorAll('.nav-link');
+// =============================================================================
+// Animations au Scroll
+// =============================================================================
+let observer;
 
-    // Bascule le menu
-    menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        menuToggle.setAttribute('aria-expanded',
-            menuToggle.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'
-        );
-    });
+function setupScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
 
-    // Gérer le clic sur les liens de navigation
-    navLinksItems.forEach(link => {
-        link.addEventListener('click', function (e) {
-            // Animation de clic
-            this.classList.add('clicked');
-            setTimeout(() => this.classList.remove('clicked'), 300);
-
-            // Fermer le menu mobile
-            navLinks.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-            document.body.style.overflow = '';
-
-            // Gérer le défilement fluide pour les ancres
-            const targetId = this.getAttribute('href');
-            if (targetId.startsWith('#')) {
-                e.preventDefault();
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    const headerOffset = 80;
-                    const elementPosition = targetElement.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
+    observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
             }
-        }, { passive: true });
-    });
+        });
+    }, observerOptions);
 
-    // Fermer le menu quand on clique en dehors
-    document.addEventListener('click', (e) => {
-        if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
-            navLinks.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
+    observeElements();
+
+    // Header scroll effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            header.style.height = '70px';
+        } else {
+            header.style.boxShadow = 'none';
+            header.style.height = '80px';
+        }
+    });
+}
+
+function observeElements() {
+    if (!observer) return;
+
+    const elementsToAnimate = document.querySelectorAll('.fade-in-up, .reveal-left, .reveal-right, .zoom-in');
+    elementsToAnimate.forEach(el => {
+        // Only observe if not already visible
+        if (!el.classList.contains('visible')) {
+            observer.observe(el);
         }
     });
 }
 
 // =============================================================================
-// Gestion de la navigation mobile
+// Navigation Mobile
 // =============================================================================
 function setupMobileNav() {
-    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+    const navItems = document.querySelectorAll('.mobile-nav-item');
+    const sections = document.querySelectorAll('section');
 
-    mobileNavLinks.forEach(link => {
-        link.addEventListener('click', function (e) {
-            const targetId = this.getAttribute('href');
-            if (targetId.startsWith('#')) {
-                e.preventDefault();
-                const targetElement = document.querySelector(targetId);
-
-                if (targetElement) {
-                    // Animation de clic
-                    this.classList.add('clicked');
-                    setTimeout(() => this.classList.remove('clicked'), 300);
-
-                    // Défilement fluide vers la section cible
-                    const headerOffset = 80;
-                    const elementPosition = targetElement.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-
-                    // Mise à jour de l'URL sans recharger la page
-                    if (history.pushState) {
-                        history.pushState(null, null, targetId);
-                    } else {
-                        location.hash = targetId;
-                    }
-                }
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (scrollY >= (sectionTop - 200)) {
+                current = section.getAttribute('id');
             }
         });
-    });
-}
 
-// =============================================================================
-// Initialisation de l'Application
-// =============================================================================
-// S'exécute lorsque le contenu de la page est entièrement chargé.
-document.addEventListener('DOMContentLoaded', () => {
-    // Afficher tous les produits au chargement
-    displayProducts();
-
-    // Initialiser les filtres
-    setupFilters();
-
-    // Initialiser le menu mobile
-    setupMobileMenu();
-
-    // Initialiser la navigation mobile
-    setupMobileNav();
-
-    // Ajout des styles pour les animations
-    const style = document.createElement('style');
-    style.textContent = `
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease-out;
-        }
-        
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .mobile-nav-link.clicked {
-            animation: none;
-        }
-        
-        @keyframes navLinkClick {
-            0% { transform: scale(1); }
-            50% { transform: scale(0.95); }
-            100% { transform: scale(1); }
-        }
-    `;
-    document.head.appendChild(style);
-
-    // Animation au chargement initial
-    setTimeout(() => {
-        document.querySelectorAll('.fade-in').forEach((element, index) => {
-            element.style.animationDelay = `${index * 0.1}s`;
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(20px)';
-            element.style.transition = 'all 0.6s ease-out';
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href').includes(current)) {
+                item.classList.add('active');
+            }
         });
-
-        // Déclencher l'animation après un court délai
-        setTimeout(() => {
-            animateOnScroll();
-        }, 300);
-    }, 100);
-});
-
-// =============================================================================
-// Écouteurs d'Événements Globaux
-// =============================================================================
-
-// Gère les animations et la mise à jour de la navigation lors du défilement.
-window.addEventListener('scroll', () => {
-    animateOnScroll();
-    updateActiveNavLink();
-});
-
-/**
- * Met à jour l'icône active dans la barre de navigation mobile en fonction de la section visible.
- */
-function updateActiveNavLink() {
-    const sections = document.querySelectorAll('main section');
-    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-    let currentSection = '';
-
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100; // Décalage pour une meilleure détection
-        if (window.scrollY >= sectionTop) {
-            currentSection = section.getAttribute('id');
-        }
-    });
-
-    mobileNavLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${currentSection}`) {
-            link.classList.add('active');
-        }
-    });
-}
-
-if (contactForm) {
-    contactForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        // Ici, vous pourriez ajouter le code pour envoyer les données du formulaire à un serveur
-        const formData = new FormData(contactForm);
-        const formObject = {};
-        formData.forEach((value, key) => formObject[key] = value);
-
-        // Réinitialiser le formulaire
-        contactForm.reset();
-
-        // Afficher un message de confirmation
-        showNotification('Votre message a été envoyé avec succès !');
     });
 }
